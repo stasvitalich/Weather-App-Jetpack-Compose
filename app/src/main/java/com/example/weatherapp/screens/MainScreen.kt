@@ -4,6 +4,8 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -13,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,7 +36,7 @@ fun MainScreen() {
             .fillMaxSize(),
         contentScale = ContentScale.Crop
 
-        )
+    )
 
     Column(
         modifier = Modifier
@@ -42,12 +45,11 @@ fun MainScreen() {
     ) {
         Card(
             modifier = Modifier
-                .fillMaxWidth()
-                .alpha(0.5f),
+                .fillMaxWidth(),
             backgroundColor = BlueLight,
-            elevation = 5.dp,
-            shape = RoundedCornerShape(10.dp)
-        ) {
+            shape = RoundedCornerShape(10.dp),
+
+            ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
@@ -66,8 +68,66 @@ fun MainScreen() {
                     AsyncImage(
                         model = "https://cdn.weatherapi.com/weather/64x64/day/113.png",
                         contentDescription = "Image of current weather",
-                        modifier = Modifier.size(40.dp).padding(end = 5.dp)
+                        modifier = Modifier
+                            .size(40.dp)
+                            .padding(end = 5.dp)
                     )
+                }
+
+                Text(
+                    text = "Pavlodar",
+                    fontSize = 30.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+
+                    )
+
+                Text(
+                    text = "22°C",
+                    fontSize = 45.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    modifier = Modifier.padding(5.dp)
+                )
+
+                Text(
+                    text = "Sunny",
+                    fontSize = 20.sp,
+                    color = Color.White
+
+                )
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    IconButton(onClick = {
+
+                    }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.search),
+                            contentDescription = "Find another location",
+                            tint = Color.White
+                        )
+                    }
+
+                    Text(
+                        text = "Wind ~ 31.0 k/ph",
+                        modifier = Modifier.padding(top = 5.dp),
+                        color = Color.White
+                    )
+
+                    IconButton(onClick = {
+
+                    }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.synch),
+                            contentDescription = "Update data",
+                            tint = Color.White
+                        )
+                    }
+
+
                 }
             }
         }
