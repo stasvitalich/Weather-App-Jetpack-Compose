@@ -3,16 +3,13 @@ package com.example.weatherapp.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -22,12 +19,11 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.weatherapp.R
 import com.example.weatherapp.ui.theme.BlueLight
-import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @Preview(showBackground = true)
 @Composable
 
-fun MainScreen() {
+fun MainCard() {
     Image(
         painter = painterResource(id = R.mipmap.skybackground),
         contentDescription = "Sky background",
@@ -130,6 +126,15 @@ fun MainScreen() {
 
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun Tablayout() {
+    Column(modifier = Modifier.clip(shape = RoundedCornerShape(5.dp))) {
+        TabRow(selectedTabIndex = 0) {
+            
         }
     }
 }
