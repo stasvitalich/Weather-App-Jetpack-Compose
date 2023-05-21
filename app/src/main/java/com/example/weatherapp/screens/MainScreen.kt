@@ -2,6 +2,8 @@ package com.example.weatherapp.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -11,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -162,12 +165,21 @@ fun Tablayout() {
 
             }
         }
-        
-        HorizontalPager(count = tabList.size,
+
+        HorizontalPager(
+            count = tabList.size,
             state = pagerState,
-        modifier = Modifier.weight(1.0f))
-        {
-            index ->
+            modifier = Modifier.weight(1.0f)
+        )
+        { index ->
+            
+            LazyColumn(modifier = Modifier.fillMaxSize().padding(start = 5.dp, end = 5.dp))
+            {
+                items(15){
+                    ListItem()
+                }
+            }
         }
     }
 }
+
