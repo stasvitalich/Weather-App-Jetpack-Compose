@@ -8,6 +8,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.layout.ContentScale
@@ -28,7 +31,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             WeatherAppTheme {
-                getData("Pavlodar", this)
+                val daysList = remember {
+                    mutableStateOf(listOf<WeatherModel>())
+                }
+                getData("Pavlodar", this, daysList)
                 Image(
                     painter = painterResource(id = R.mipmap.skybackground),
                     contentDescription = "Sky background",
@@ -41,7 +47,7 @@ class MainActivity : ComponentActivity() {
 
                 Column {
                     MainCard()
-                    Tablayout()
+                    Tablayout(daysList)
                 }
 
             }
@@ -51,7 +57,7 @@ class MainActivity : ComponentActivity() {
 
 // The function for getting data from API
 
-private fun getData(city: String, context: Context) {
+private fun getData(city: String, context: Context, daysList: MutableState<List<WeatherModel>>) {
     val url = "https://api.weatherapi.com/v1/forecast.json?key=" +
             API_KEY +
             "&q=$city" +
@@ -64,6 +70,8 @@ private fun getData(city: String, context: Context) {
         com.android.volley.Request.Method.GET,
         url,
         { response ->
+            val list = getWeatherByDays(response)
+            daysList.value = list
         },
 
         {
