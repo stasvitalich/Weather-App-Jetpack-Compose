@@ -14,12 +14,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.example.weatherapp.data.WeatherModel
 import com.example.weatherapp.screens.MainCard
 import com.example.weatherapp.screens.Tablayout
 
 import com.example.weatherapp.ui.theme.WeatherAppTheme
+import org.json.JSONObject
 
-const val API_KEY = "1c8327b6f4194789a90154340231805"
+const val API_KEY = "bde2c49d95c84ceca2c90923232505 "
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,8 +63,7 @@ private fun getData(city: String, context: Context) {
     val request = StringRequest(
         com.android.volley.Request.Method.GET,
         url,
-        {
-            response ->
+        { response ->
         },
 
         {
@@ -71,4 +72,35 @@ private fun getData(city: String, context: Context) {
     )
 
     queue.add(request)
+}
+
+private fun getWeatherByDays(response: String): List<WeatherModel> {
+    if (response.isEmpty()) {
+        return listOf()
+    }
+    val list = ArrayList<WeatherModel>()
+    val mainObject = JSONObject(response)
+    val city = mainObject.getJSONObject("location").getString("name")
+    val days = mainObject.getJSONObject("forecast").getJSONArray("forecastday")
+
+    for (i in 0 until days.length()) {
+        val item = days[i] as JSONObject
+        list.add(
+            WeatherModel(
+                city,
+                item.getString("date"),
+                "",
+                item.getJSONObject("day").getJSONObject("condition").getString("text"),
+                item.getJSONObject("day").getJSONObject("condition").getString("icon"),
+                item.getJSONObject("day").getString("maxtemp_c"),
+                item.getJSONObject("day").getString("mintemp_c"),
+                item.getJSONArray("hour").toString()
+            )
+        )
+    }
+    list[0] = list[0].copy(
+        time = mainObject.getJSONObject("current").getString("last_updated"),
+        currentTemp = mainObject.getJSONObject("current").getString("temp_c")
+    )
+    return list
 }
